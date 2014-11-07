@@ -1,6 +1,6 @@
 package org.adligo.tests4j_4mockito;
 
-import org.adligo.tests4j.system.shared.trials.SourceFileTrial;
+import org.adligo.tests4j.system.shared.trials.UseCaseTrial;
 import org.hamcrest.Matcher;
 import org.mockito.MockSettings;
 import org.mockito.MockingDetails;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class MockitoUseCaseTrial extends SourceFileTrial implements I_MockitoAsserts {
+public class MockitoUseCaseTrial extends UseCaseTrial implements I_MockitoAsserts {
 
   @Override
   public boolean anyBoolean() {
