@@ -5,6 +5,7 @@ import org.mockito.MockSettings;
 import org.mockito.MockingDetails;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.OngoingStubbing;
+import org.mockito.stubbing.Stubber;
 
 /**
  * this adds together the I_Asserts interface from tests4j
@@ -28,4 +29,5 @@ public interface I_MockitoAsserts extends I_MockitoMatchers, I_Asserts {
   public MockingDetails mockingDetails(Object toInspect);
   public <T> T spy(T object);
   public <T> OngoingStubbing<T> when(T methodCall);
+  public <T> Stubber doAnswer(Answer<T> answer);
 }

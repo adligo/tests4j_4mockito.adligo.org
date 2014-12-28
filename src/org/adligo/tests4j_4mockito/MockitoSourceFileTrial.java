@@ -7,6 +7,7 @@ import org.mockito.MockingDetails;
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.OngoingStubbing;
+import org.mockito.stubbing.Stubber;
 
 import java.util.Collection;
 import java.util.List;
@@ -321,4 +322,8 @@ public class MockitoSourceFileTrial extends SourceFileTrial implements I_Mockito
     return Mockito.when(methodCall);
   }
 
+  @Override
+  public <T> Stubber doAnswer(Answer<T> answer) {
+    return Mockito.doAnswer(answer);
+  }
 }
