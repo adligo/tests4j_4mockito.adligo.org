@@ -10,3 +10,10 @@ getting mutated in eclipse when I hit ctrl-shift-o
 to auto organize my imports.  So it makes sense
 to have them all in parent classes already imported 
 to save time.
+
+Also note that this project was designed for use with 
+tests4j (MockitoSourceFileTrial, MockitoApiTrial, MockitoUseCaseTrial),
+however the method recording aspect of it 
+can be used with junit tests as well (ArgMap,MethodRecorder, ObjParams).
+I will probably try to get these classes added to the
+Mockito (mockito.org project) at some point.
