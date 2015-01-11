@@ -3,6 +3,7 @@ package org.adligo.tests4j_4mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -60,6 +61,7 @@ public class MethodRecorder<T> implements Answer<T> {
   private T defaultType_;
   
   public MethodRecorder() {
+    
     types_ = null;
   }
   
@@ -127,16 +129,46 @@ public class MethodRecorder<T> implements Answer<T> {
     return toRet;
   }
   
+  /**
+   * 
+   * @return
+   * The number of times the method was called.
+   */
   public int count() {
     return count_;
   }
   
+  /**
+   * @deprecated use getArgs it's shorter
+   * @param call which recorded method call to return the arguments/parameters for.
+   * @return the arguments/parameters of a recorded method call.
+   */
   public Object [] getArguments(int call) {
     return callArgs_.get(call);
   }
   
+  /**
+   * @deprecated use getArg it's shorter
+   * @param call which recorded method call to return the arguments/parameters for.
+   * @return the first or single argument of a recorded method call.
+   */
   public Object getArgument(int call) {
     return callArgs_.get(call)[0];
   }
 
+  /**
+   * @param call which recorded method call to return the arguments/parameters for.
+   * @return the arguments/parameters of a recorded method call.
+   */
+  public Object [] getArgs(int call) {
+    return callArgs_.get(call);
+  }
+  
+  /**
+   * @param call which recorded method call to return the arguments/parameters for.
+   * @return the first or single argument of a recorded method call.
+   */
+  public Object getArg(int call) {
+    return callArgs_.get(call)[0];
+  }
 }
