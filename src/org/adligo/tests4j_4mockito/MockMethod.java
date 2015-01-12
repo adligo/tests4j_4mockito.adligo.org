@@ -3,7 +3,6 @@ package org.adligo.tests4j_4mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,19 +19,19 @@ import java.util.Stack;
  * mockito partial or full mocking only <br/>
  *  <br/>
  *  For void return types do this; <br/>
- * MethodRecorder&lt;Void&gt; rvc = new MethodRecorder&lt;Void&gt;(); <br/>
+ * MockMethod&lt;Void&gt; mm = new MockMethod&lt;Void&gt;(); <br/>
  * PrintStream out = System.out; <br/>
- * doAnswer(rvc).when(out).println(any(String.class)); <br/>
+ * doAnswer(mm).when(out).println(any(String.class)); <br/>
  * out.println("hey");
  * <br/> 
- * assertEquals(1, rvc.count());<br/> 
- * assertEquals("hey", rvc.getArguments(0)[0]);<br/>
+ * assertEquals(1, mm.count());<br/> 
+ * assertEquals("hey", mm.getArguments(0)[0]);<br/>
  * <br/>
  * String mockString = mock(String.class); <br/>
  * List&lt;Integer&gt; hashCodeReturnValues = new ArrayList&lt;Integer&gt;(); <br/>
  * hashCodeReturnValues.add(new Integer(56)); <br/>
  * hashCodeReturnValues.add(new Integer(65)); <br/>
- * MethodRecorder&lt;Integer&gt; count = new MethodRecorder&lt;Integer&gt;(hashCodeReturnValues); <br/>
+ * MockMethod&lt;Integer&gt; count = new MockMethod&lt;Integer&gt;(hashCodeReturnValues); <br/>
  * when(mockString.hashCode()).thenAnswer(count); <br/>
  *  <br/>
  * assertEquals(1, count.count());<br/>
@@ -40,17 +39,17 @@ import java.util.Stack;
  * This class can be used to reduce the amount of typing 
  * for mocking when(foo.bar()).thenReturn(); <br/>
  * ArgMap&lt;Integer&gt; hashResponces = new ArgMap&lt;Integer&gt;(); <br/>
- * printResponces.put(MethodRecorder.EMPTY, 12);<br/>
- * printResponces.put(MethodRecorder.EMPTY, 13);<br/>
- * printResponces.put(MethodRecorder.EMPTY, 14);<br/>
- * MethodRecorder&lt;Integer&gt; hashRecorder = new MethodRecorder&lt;Integer&gt;();<br/>
- * when(foo.hashCode()).thenAnswer(hashRecorder);<br/>
+ * printResponces.put(MockMethod.EMPTY, 12);<br/>
+ * printResponces.put(MockMethod.EMPTY, 13);<br/>
+ * printResponces.put(MockMethod.EMPTY, 14);<br/>
+ * MockMethod&lt;Integer&gt; mockHash = new MockMethod&lt;Integer&gt;();<br/>
+ * when(foo.hashCode()).thenAnswer(mockHash);<br/>
  * assertEquals(12, foo.hashCode());<br/>
  * 
  * @author scott
  *
  */
-public class MethodRecorder<T> implements Answer<T> {
+public class MockMethod<T> implements Answer<T> {
   public static final Object[] EMPTY = new Object[]{};
   
   private int count_;
@@ -60,19 +59,19 @@ public class MethodRecorder<T> implements Answer<T> {
   private final Stack<T> types_;
   private T defaultType_;
   
-  public MethodRecorder() {
+  public MockMethod() {
     
     types_ = null;
   }
   
-  public MethodRecorder(@SuppressWarnings("unchecked") T ... type) {
+  public MockMethod(@SuppressWarnings("unchecked") T ... type) {
     types_ = new Stack<T>();
     for (int i = 0; i < type.length; i++) {
       types_.push(type[i]);
     }
   }
   
-  public MethodRecorder(T type, boolean repeat) {
+  public MockMethod(T type, boolean repeat) {
     if (! repeat) {
       types_ = new Stack<T>();
       types_.push(type);
@@ -82,18 +81,18 @@ public class MethodRecorder<T> implements Answer<T> {
     }
   }
   
-  public MethodRecorder(ArgMap<T> responses) {
+  public MockMethod(ArgMap<T> responses) {
     types_ = null;
     argsToResults_ = new ArgMap<T>();
     argsToResults_.putAll(responses);
   }
   
-  public MethodRecorder(ArgMap<T> responses, T defaultType) {
+  public MockMethod(ArgMap<T> responses, T defaultType) {
     this(responses);
     defaultType_ = defaultType;
   }
   
-  public MethodRecorder(Collection<T> types) {
+  public MockMethod(Collection<T> types) {
     types_ = new Stack<T>();
     for (T t: types) {
       types_.push(t);
@@ -139,24 +138,6 @@ public class MethodRecorder<T> implements Answer<T> {
   }
   
   /**
-   * @deprecated use getArgs it's shorter
-   * @param call which recorded method call to return the arguments/parameters for.
-   * @return the arguments/parameters of a recorded method call.
-   */
-  public Object [] getArguments(int call) {
-    return callArgs_.get(call);
-  }
-  
-  /**
-   * @deprecated use getArg it's shorter
-   * @param call which recorded method call to return the arguments/parameters for.
-   * @return the first or single argument of a recorded method call.
-   */
-  public Object getArgument(int call) {
-    return callArgs_.get(call)[0];
-  }
-
-  /**
    * @param call which recorded method call to return the arguments/parameters for.
    * @return the arguments/parameters of a recorded method call.
    */
@@ -171,4 +152,6 @@ public class MethodRecorder<T> implements Answer<T> {
   public Object getArg(int call) {
     return callArgs_.get(call)[0];
   }
+
+  
 }
