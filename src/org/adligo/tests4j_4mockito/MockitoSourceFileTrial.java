@@ -14,316 +14,255 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class MockitoSourceFileTrial extends SourceFileTrial implements I_MockitoAsserts {
+public class MockitoSourceFileTrial extends SourceFileTrial {
 
-  @Override
-  public boolean anyBoolean() {
+  public static boolean anyBoolean() {
     return Mockito.anyBoolean();
   }
 
-  @Override
-  public byte anyByte() {
+  public static byte anyByte() {
     return Mockito.anyByte();
   }
-
-  @Override
-  public char anyChar() {
+  
+  public static char anyChar() {
     return Mockito.anyChar();
   }
 
-  @Override
-  public int anyInt() {
+  public static int anyInt() {
     return Mockito.anyInt();
   }
 
-  @Override
-  public long anyLong() {
+  public static long anyLong() {
     return Mockito.anyLong();
   }
 
-  @Override
-  public float anyFloat() {
+  public static float anyFloat() {
     return Mockito.anyFloat();
   }
 
-  @Override
-  public double anyDouble() {
+  public static double anyDouble() {
     return Mockito.anyDouble();
   }
 
-  @Override
-  public short anyShort() {
+  public static short anyShort() {
     return Mockito.anyShort();
   }
 
-  @Override
-  public <T> T anyObject() {
+  public static <T> T anyObject() {
     return Mockito.anyObject();
   }
 
-  @Override
-  public <T> T anyVararg() {
+  public static <T> T anyVararg() {
     return Mockito.anyVararg();
   }
 
-  @Override
-  public <T> T any(Class<T> clazz) {
+  public static <T> T any(Class<T> clazz) {
     return Mockito.any(clazz);
   }
 
-  @Override
-  public <T> T any() {
+  public static <T> T any() {
     return Mockito.any();
   }
 
-  @Override
-  public String anyString() {
+  public static String anyString() {
     return Mockito.anyString();
   }
 
   @SuppressWarnings("rawtypes")
-  @Override
-  public List anyList() {
+  public static List anyList() {
     return Mockito.anyList();
   }
 
-  @Override
-  public <T> List<T> anyListOf(Class<T> clazz) {
+  public static <T> List<T> anyListOf(Class<T> clazz) {
     return Mockito.anyListOf(clazz);
   }
 
   @SuppressWarnings("rawtypes")
-  @Override
-  public Set anySet() {
+  public static Set anySet() {
     return Mockito.anySet();
   }
 
-  @Override
-  public <T> Set<T> anySetOf(Class<T> clazz) {
+  public static <T> Set<T> anySetOf(Class<T> clazz) {
     return Mockito.anySetOf(clazz);
   }
 
   @SuppressWarnings("rawtypes")
-  @Override
-  public Map anyMap() {
+  public static Map anyMap() {
     return Mockito.anyMap();
   }
 
-  @Override
-  public <K, V> Map<K, V> anyMapOf(Class<K> keyClazz, Class<V> valueClazz) {
+  public static <K, V> Map<K, V> anyMapOf(Class<K> keyClazz, Class<V> valueClazz) {
     return Mockito.anyMapOf(keyClazz, valueClazz);
   }
 
   @SuppressWarnings("rawtypes")
-  @Override
-  public Collection anyCollection() {
+  public static Collection anyCollection() {
     return Mockito.anyCollection();
   }
 
-  @Override
-  public <T> Collection<T> anyCollectionOf(Class<T> clazz) {
+  public static <T> Collection<T> anyCollectionOf(Class<T> clazz) {
     return Mockito.anyCollectionOf(clazz);
   }
 
-  @Override
-  public <T> T isA(Class<T> clazz) {
+  public static <T> T isA(Class<T> clazz) {
     return Mockito.isA(clazz);
   }
 
-  @Override
-  public boolean eq(boolean value) {
+  public static boolean eq(boolean value) {
     return Mockito.eq(value);
   }
 
-  @Override
-  public byte eq(byte value) {
+  public static byte eq(byte value) {
     return Mockito.eq(value);
   }
 
-  @Override
-  public char eq(char value) {
+  public static char eq(char value) {
     return Mockito.eq(value);
   }
 
-  @Override
-  public double eq(double value) {
+  public static double eq(double value) {
     return Mockito.eq(value);
   }
 
-  @Override
-  public float eq(float value) {
+  public static float eq(float value) {
     return Mockito.eq(value);
   }
 
-  @Override
-  public int eq(int value) {
+  public static int eq(int value) {
     return Mockito.eq(value);
   }
 
-  @Override
-  public long eq(long value) {
+  public static long eq(long value) {
     return Mockito.eq(value);
   }
 
-  @Override
-  public short eq(short value) {
+  public static short eq(short value) {
     return Mockito.eq(value);
   }
 
-  @Override
-  public <T> T eq(T value) {
+  public static <T> T eq(T value) {
     return Mockito.eq(value);
   }
 
-  @Override
-  public <T> T refEq(T value, String... excludeFields) {
+  public static <T> T refEq(T value, String... excludeFields) {
     return Mockito.refEq(value, excludeFields);
   }
 
-  @Override
-  public <T> T same(T value) {
+  public static <T> T same(T value) {
     return Mockito.same(value);
   }
 
-  @Override
-  public Object isNull() {
+  public static Object isNull() {
     return Mockito.isNull();
   }
 
-  @Override
-  public <T> T isNull(Class<T> clazz) {
+  public static <T> T isNull(Class<T> clazz) {
     return Mockito.isNotNull(clazz);
   }
 
-  @Override
-  public Object notNull() {
+  public static Object notNull() {
     return Mockito.notNull();
   }
 
-  @Override
-  public <T> T notNull(Class<T> clazz) {
+  public static <T> T notNull(Class<T> clazz) {
     return Mockito.notNull(clazz);
   }
 
-  @Override
-  public Object isNotNull() {
+  public static Object isNotNull() {
     return Mockito.isNotNull();
   }
 
-  @Override
-  public <T> T isNotNull(Class<T> clazz) {
+  public static <T> T isNotNull(Class<T> clazz) {
     return Mockito.isNotNull(clazz);
   }
 
-  @Override
-  public String contains(String substring) {
+  public static String contains(String substring) {
     return Mockito.contains(substring);
   }
 
-  @Override
-  public String matches(String regex) {
+  public static String matches(String regex) {
     return Mockito.matches(regex);
   }
 
-  @Override
-  public String endsWith(String suffix) {
+  public static String endsWith(String suffix) {
     return Mockito.endsWith(suffix);
   }
 
-  @Override
-  public String startsWith(String prefix) {
+  public static String startsWith(String prefix) {
     return Mockito.startsWith(prefix);
   }
 
-  @Override
-  public <T> T argThat(Matcher<T> matcher) {
+  public static <T> T argThat(Matcher<T> matcher) {
     return Mockito.argThat(matcher);
   }
 
-  @Override
-  public char charThat(Matcher<Character> matcher) {
+  public static char charThat(Matcher<Character> matcher) {
     return Mockito.charThat(matcher);
   }
 
-  @Override
-  public boolean booleanThat(Matcher<Boolean> matcher) {
+  public static boolean booleanThat(Matcher<Boolean> matcher) {
     return Mockito.booleanThat(matcher);
   }
 
-  @Override
-  public byte byteThat(Matcher<Byte> matcher) {
+  public static byte byteThat(Matcher<Byte> matcher) {
     return Mockito.byteThat(matcher);
   }
 
-  @Override
-  public short shortThat(Matcher<Short> matcher) {
+  public static short shortThat(Matcher<Short> matcher) {
     return Mockito.shortThat(matcher);
   }
 
-  @Override
-  public int intThat(Matcher<Integer> matcher) {
+  public static int intThat(Matcher<Integer> matcher) {
     return Mockito.intThat(matcher);
   }
 
-  @Override
-  public long longThat(Matcher<Long> matcher) {
+  public static long longThat(Matcher<Long> matcher) {
     return Mockito.longThat(matcher);
   }
 
-  @Override
-  public float floatThat(Matcher<Float> matcher) {
+  public static float floatThat(Matcher<Float> matcher) {
     return Mockito.floatThat(matcher);
   }
 
-  @Override
-  public double doubleThat(Matcher<Double> matcher) {
+  public static double doubleThat(Matcher<Double> matcher) {
     return Mockito.doubleThat(matcher);
   }
 
-  @Override
-  public <T> T mock(Class<T> classToMock) {
+  public static <T> T mock(Class<T> classToMock) {
     return Mockito.mock(classToMock);
   }
 
   @SuppressWarnings("rawtypes")
-  @Override
-  public <T> T mock(Class<T> classToMock, Answer defaultAnswer) {
+  public static <T> T mock(Class<T> classToMock, Answer defaultAnswer) {
     return Mockito.mock(classToMock, defaultAnswer);
   }
 
-  @Override
-  public <T> T mock(Class<T> classToMock, MockSettings settings) {
+  public static <T> T mock(Class<T> classToMock, MockSettings settings) {
     return Mockito.mock(classToMock,settings);
   }
 
-  @Override
-  public <T> T mock(Class<T> classToMock, String name) {
+  public static <T> T mock(Class<T> classToMock, String name) {
     return Mockito.mock(classToMock, name);
   }
 
   @SuppressWarnings("unchecked")
-  @Override
-  public <T> void reset(T... mocks) {
+  public static <T> void reset(T... mocks) {
     Mockito.reset(mocks);
   }
 
-  @Override
-  public MockingDetails mockingDetails(Object toInspect) {
+  public static MockingDetails mockingDetails(Object toInspect) {
     return Mockito.mockingDetails(toInspect);
   }
 
-  @Override
-  public <T> T spy(T object) {
+  public static <T> T spy(T object) {
     return Mockito.spy(object);
   }
 
-  @Override
-  public <T> OngoingStubbing<T> when(T methodCall) {
+  public static <T> OngoingStubbing<T> when(T methodCall) {
     return Mockito.when(methodCall);
   }
 
-  @Override
-  public <T> Stubber doAnswer(Answer<T> answer) {
+  public static <T> Stubber doAnswer(Answer<T> answer) {
     return Mockito.doAnswer(answer);
   }
 }
