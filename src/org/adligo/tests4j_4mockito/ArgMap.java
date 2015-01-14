@@ -8,12 +8,42 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+/**
+ * This class maps arguments/parameters to return values of type T.  There are
+ * a variety of ways to do this; <br/>
+ * A) With a default return value. <br/>
+ * B) With a factory for return values. <br/>
+ * C) With the backing delegate Map&lt;ObjParams,T&gt;. <br/>
+ * <br/>
+ * In all cases the value returned, should be 
+ * the same instance for subsequent invocations 
+ * of get for the same parameters/arguments so 
+ * that the arg map can be used for assertions.<br/>
+ * <br/>
+ * <pre>
+ * {@code
+ * MockMethod<String> mm = new MockMethod<String>(new ArgMap<String>(
+ *    new I_ReturnFactory<String> {
+ *      public String create(Object [] params) {
+ *          return "11" + params[0];
+ *      }
+ * ));
+ * List&lt;String&gt; mockList = mock(List.class);
+ * when(mockList.get(anyInt()).then(mm);
+ * assertEquals("111", mockList.get(1));
+ * assertEquals("112", mockList.get(2));
+ * assertEquals("1131", mockList.get(31));
+ * </pre>
+ * @author scott
+ *
+ * @param <T>
+ */
 public class ArgMap<T> implements Map<ObjParams, T>{
   public static final String OBJECT_ARRAY_CLASS_NAME = new Object[] {}.getClass().getName();
   
   private final Map<ObjParams, T> delegate_ = new HashMap<ObjParams, T>();
   private final T defaultValue_;
-  private final I_ArgFactory<T> factory_;
+  private final I_ReturnFactory<T> factory_;
   
   public ArgMap() {
     defaultValue_ = null;
@@ -29,12 +59,12 @@ public class ArgMap<T> implements Map<ObjParams, T>{
    * to make sure they get passed to other methods later.
    * @param factory
    */
-  public ArgMap(I_ArgFactory<T> factory) {
+  public ArgMap(I_ReturnFactory<T> factory) {
     defaultValue_ = null;
     factory_ = factory;
   }
   
-  public ArgMap(T defaultValue, I_ArgFactory<T> factory) {
+  public ArgMap(T defaultValue, I_ReturnFactory<T> factory) {
     defaultValue_ = defaultValue;
     factory_ = factory;
   }
