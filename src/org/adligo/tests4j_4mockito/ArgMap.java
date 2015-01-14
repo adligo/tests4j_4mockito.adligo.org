@@ -18,12 +18,12 @@ public class ArgMap<T> implements Map<ObjParams, T>{
   public ArgMap() {
     defaultValue_ = null;
     factory_ = null;
-  };
+  }
   
   public ArgMap(T defaultValue) {
     defaultValue_ = defaultValue;
     factory_ = null;
-  };
+  }
   /**
    * this can be useful for storing instances,
    * to make sure they get passed to other methods later.
@@ -32,12 +32,12 @@ public class ArgMap<T> implements Map<ObjParams, T>{
   public ArgMap(I_ArgFactory<T> factory) {
     defaultValue_ = null;
     factory_ = factory;
-  };
+  }
   
   public ArgMap(T defaultValue, I_ArgFactory<T> factory) {
     defaultValue_ = defaultValue;
     factory_ = factory;
-  };
+  }
   
   public int size() {
     return delegate_.size();
@@ -58,18 +58,28 @@ public class ArgMap<T> implements Map<ObjParams, T>{
   public T get(Object key) {
     if (key != null) {
       if (OBJECT_ARRAY_CLASS_NAME.equals(key.getClass().getName())) {
-        return delegate_.get(new ObjParams((Object []) key));
+        return get(new ObjParams((Object []) key));
       }
     }
     return delegate_.get(key);
   }
 
   public T get(ObjParams key) {
-    return delegate_.get(key);
+    T toRet = delegate_.get(key);
+    if (toRet == null) {
+      if (factory_ != null) {
+        toRet = factory_.create(key.toArray());
+        delegate_.put(key, toRet);
+      }
+    }
+    if (toRet == null) {
+      return defaultValue_;
+    }
+    return toRet;
   }
   
   public T get(Object [] key) {
-    return delegate_.get(new ObjParams(key));
+    return get(new ObjParams(key));
   }
   /**
    * note it's getVar to distinguish 
@@ -78,7 +88,7 @@ public class ArgMap<T> implements Map<ObjParams, T>{
    * @return
    */
   public T getVar(Object ... key) {
-    return delegate_.get(new ObjParams(key));
+    return get(new ObjParams(key));
   }
   
   public T put(ObjParams key, T value) {
@@ -89,19 +99,15 @@ public class ArgMap<T> implements Map<ObjParams, T>{
     return delegate_.put(new ObjParams(key), value);
   }
 
-  public T putVar(T value, Object ... key ) {
-    return delegate_.put(new ObjParams(key), value);
-  }
-  
-  public T putDefault(Object ... key ) {
-    return delegate_.put(new ObjParams(key), defaultValue_);
-  }
-  
-  public T putFactory(Object ... key ) {
-    T value = null;
-    if (factory_ != null) {
-      value = factory_.create(key);
-    }
+  /**
+   * Note: This method is backward from the regular
+   * put methods so it can have the ... for variable 
+   * arguments.
+   * @param value
+   * @param key
+   * @return
+   */
+  public T putVal(T value, Object ... key ) {
     return delegate_.put(new ObjParams(key), value);
   }
   

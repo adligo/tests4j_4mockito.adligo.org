@@ -19,6 +19,10 @@ public class ObjParams {
     delegate_ = delegate;
   }
   
+  public Object[] toArray() {
+    return delegate_;
+  }
+  
   @Override
   public String toString() {
     return "ObjParams [delegate_=" + Arrays.toString(delegate_) + "]";
