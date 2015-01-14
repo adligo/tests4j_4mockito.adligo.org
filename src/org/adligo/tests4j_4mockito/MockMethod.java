@@ -25,26 +25,29 @@ import java.util.Stack;
  * out.println("hey");
  * <br/> 
  * assertEquals(1, mm.count());<br/> 
- * assertEquals("hey", mm.getArguments(0)[0]);<br/>
+ * assertEquals("hey", mm.getArg(0));<br/>
  * <br/>
- * String mockString = mock(String.class); <br/>
- * List&lt;Integer&gt; hashCodeReturnValues = new ArrayList&lt;Integer&gt;(); <br/>
- * hashCodeReturnValues.add(new Integer(56)); <br/>
- * hashCodeReturnValues.add(new Integer(65)); <br/>
- * MockMethod&lt;Integer&gt; count = new MockMethod&lt;Integer&gt;(hashCodeReturnValues); <br/>
- * when(mockString.hashCode()).thenAnswer(count); <br/>
- *  <br/>
- * assertEquals(1, count.count());<br/>
+ * For methods that return values (i.e. String) do this;<br/>
+ * MockMethod&lt;String&gt; getMock = new MockMethod&lt;String&gt;(); <br/>
+ * List&lt;String&gt; mockList = mock(List.class); <br/>
+ * getMock.push("abc");<br/>
+ * getMock.push("dev");<br/>
+ * when(mockList.get(anyInt())).thenAnswer(getMock); <br/>
+ * mockList.get(123); <br/>
+ * mockList.get(456); <br/>
+ * assertEquals(2, getMock.count());<br/>
+ * assertEquals(123, getMock.getArg(0));<br/>
+ * assertEquals(456, getMock.getArg(1));<br/>
  * <br/>
- * This class can be used to reduce the amount of typing 
- * for mocking when(foo.bar()).thenReturn(); <br/>
- * ArgMap&lt;Integer&gt; hashResponces = new ArgMap&lt;Integer&gt;(); <br/>
- * printResponces.put(MockMethod.EMPTY, 12);<br/>
- * printResponces.put(MockMethod.EMPTY, 13);<br/>
- * printResponces.put(MockMethod.EMPTY, 14);<br/>
- * MockMethod&lt;Integer&gt; mockHash = new MockMethod&lt;Integer&gt;();<br/>
- * when(foo.hashCode()).thenAnswer(mockHash);<br/>
- * assertEquals(12, foo.hashCode());<br/>
+ * For a map of return values do this;<br/>
+ * ArgMap&lt;String&gt; map = new ArgMap&lt;String&gt;();<br/>
+ * Note: putVal is backward on purpose see it's javadoc.<br/>
+ * map.putVal("hey",111);<br/>
+ * map.putVal("hey2",212);<br/>
+ * MockMethod&lt;String&gt; getMockTwo = new MockMethod&lt;String&gt;(map); <br/>
+ * when(mockList.get(anyInt()).thenAnswer(getMockTwo); <br/>
+ * assertEquals("hey", mockList.get(111)); <br/>
+ * assertEquals("hey2", mockList.get(212)); <br/>
  * 
  * @author scott
  *
@@ -56,13 +59,10 @@ public class MockMethod<T> implements Answer<T> {
   private ArgMap<T> argsToResults_;
   private final List<Object[]> callArgs_ = new ArrayList<Object[]>();
   
-  private final Stack<T> types_;
+  private Stack<T> types_;
   private T defaultType_;
   
-  public MockMethod() {
-    
-    types_ = null;
-  }
+  public MockMethod() {}
   
   public MockMethod(@SuppressWarnings("unchecked") T ... type) {
     types_ = new Stack<T>();
@@ -83,8 +83,7 @@ public class MockMethod<T> implements Answer<T> {
   
   public MockMethod(ArgMap<T> responses) {
     types_ = null;
-    argsToResults_ = new ArgMap<T>();
-    argsToResults_.putAll(responses);
+    argsToResults_ = responses;
   }
   
   public MockMethod(ArgMap<T> responses, T defaultType) {
@@ -99,32 +98,43 @@ public class MockMethod<T> implements Answer<T> {
     }
   }
   
+  public void push(T type) {
+    if (types_ == null) {
+      types_ = new Stack<T>();
+    }
+    types_.push(type);
+  }
+  
   @Override
   public T answer(InvocationOnMock invocation) throws Throwable {
     count_++;
     Object [] args = invocation.getArguments();
     callArgs_.add(args);
     
-    ObjParams params = new ObjParams(args);
-    if (argsToResults_ != null) {
-      T toRet = argsToResults_.get(params);
-      if (toRet == null) {
-        return defaultType_;
-      } else {
-        return toRet;
+    T toRet = null;
+    if (types_ != null) {
+      if (types_.size() >= 1) {
+        toRet = types_.firstElement();
+        //fifo
+        types_.remove(0);
       }
     }
-    
-    if (types_ == null) {
+    if (toRet == null) {
+      ObjParams params = new ObjParams(args);
+      if (argsToResults_ != null) {
+        toRet = argsToResults_.get(params);
+        if (toRet == null) {
+          return defaultType_;
+        } else {
+          return toRet;
+        }
+      }
+    }
+    if (toRet == null) {
       if (defaultType_ != null) {
         return defaultType_;
       }
-      return null;
     }
-    
-    T toRet = types_.firstElement();
-    //fifo
-    types_.remove(0);
     return toRet;
   }
   
