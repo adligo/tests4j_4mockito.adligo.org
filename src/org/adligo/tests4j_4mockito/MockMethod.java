@@ -86,6 +86,11 @@ public class MockMethod<T> implements Answer<T> {
     argsToResults_ = responses;
   }
   
+  public MockMethod(I_ReturnFactory<T> factory) {
+    types_ = null;
+    argsToResults_ = new ArgMap<T>(factory);
+  }
+  
   public MockMethod(ArgMap<T> responses, T defaultType) {
     this(responses);
     defaultType_ = defaultType;
