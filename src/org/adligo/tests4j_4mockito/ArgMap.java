@@ -44,15 +44,18 @@ public class ArgMap<T> implements Map<ObjParams, T>{
   private final Map<ObjParams, T> delegate_ = new HashMap<ObjParams, T>();
   private final T defaultValue_;
   private final I_ReturnFactory<T> factory_;
+  private final boolean cacheResults_;
   
   public ArgMap() {
     defaultValue_ = null;
     factory_ = null;
+    cacheResults_ = true;
   }
   
   public ArgMap(T defaultValue) {
     defaultValue_ = defaultValue;
     factory_ = null;
+    cacheResults_ = true;
   }
   /**
    * this can be useful for storing instances,
@@ -62,11 +65,25 @@ public class ArgMap<T> implements Map<ObjParams, T>{
   public ArgMap(I_ReturnFactory<T> factory) {
     defaultValue_ = null;
     factory_ = factory;
+    cacheResults_ = true;
+  }
+  
+  public ArgMap(I_ReturnFactory<T> factory, boolean cacheResults) {
+    defaultValue_ = null;
+    factory_ = factory;
+    cacheResults_ = cacheResults;
   }
   
   public ArgMap(T defaultValue, I_ReturnFactory<T> factory) {
     defaultValue_ = defaultValue;
     factory_ = factory;
+    cacheResults_ = true;
+  }
+  
+  public ArgMap(T defaultValue, I_ReturnFactory<T> factory, boolean cacheResults) {
+    defaultValue_ = defaultValue;
+    factory_ = factory;
+    cacheResults_ = cacheResults;
   }
   
   public int size() {
@@ -95,11 +112,15 @@ public class ArgMap<T> implements Map<ObjParams, T>{
   }
 
   public T get(ObjParams key) {
+    
     T toRet = delegate_.get(key);
+    
     if (toRet == null) {
       if (factory_ != null) {
         toRet = factory_.create(key.toArray());
-        delegate_.put(key, toRet);
+        if (cacheResults_) {
+          delegate_.put(key, toRet);
+        }
       }
     }
     if (toRet == null) {

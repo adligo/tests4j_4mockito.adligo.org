@@ -265,4 +265,16 @@ public class MockitoSourceFileTrial extends SourceFileTrial {
   public static <T> Stubber doAnswer(Answer<T> answer) {
     return Mockito.doAnswer(answer);
   }
+  
+  public static <T> Stubber doReturn(Object toRet) {
+    return Mockito.doReturn(toRet);
+  }
+  
+  public static <T> Stubber doThrow(Class<? extends Throwable> throwableClass) {
+    return Mockito.doThrow(throwableClass);
+  }
+  
+  public static <T> Stubber doThrow(Throwable throwable) {
+    return Mockito.doThrow(throwable);
+  }
 }
