@@ -173,5 +173,14 @@ public class MockMethod<T> implements Answer<T> {
     return callArgs_.get(call)[0];
   }
 
+  /**
+   * Clears the recorded state, but does NOT
+   * clear the output(return values) types.
+   */
+  public void clear() {
+    count_ = 0;
+    callArgs_.clear();
+  }
+
   
 }
