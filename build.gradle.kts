@@ -11,7 +11,7 @@ plugins {
 dependencies {
   implementation("javax.xml.bind:jaxb-api:2.4.0-b180830.0359")
   implementation("org.mockito:mockito-all:2.0.2-beta")
-  implementation("org.adligo:tests4j:vg0_7")
+  implementation("org.adligo:tests4j:v0_2")
 }
 
 sourceSets {
