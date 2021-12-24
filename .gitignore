@@ -1,4 +1,9 @@
 .classpath
+
 /bin/
 /build/
 /classes_e/
+.gradle
+gradle
+.project
+.settings
