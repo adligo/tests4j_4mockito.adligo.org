@@ -1,4 +1,4 @@
 PROJECT_GROUP=org/adligo
-PROJECT_NAME=tests4j
+PROJECT_NAME=tests4j_4mockito
 
 export PROJECT_GROUP PROJECT_NAME
