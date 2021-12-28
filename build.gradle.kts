@@ -9,10 +9,18 @@ plugins {
 }
 
 dependencies {
-  implementation("javax.xml.bind:jaxb-api:2.4.0-b180830.0359")
-  implementation("org.mockito:mockito-all:2.0.2-beta")
+  implementation("javax.xml.bind:jaxb-api:2.4.0-b180830.0359")  
+  //an old version of Mockito that uses jdk 1.5 byte code for Apache Beam
+  implementation("org.mockito:mockito-all:1.10.19")
   implementation("org.adligo:tests4j:v0_4")
 }
+
+java {
+  toolchain {
+    languageVersion.set(JavaLanguageVersion.of(8))
+  }
+}
+
 
 sourceSets {
   main {
@@ -56,4 +64,13 @@ publishing {
 repositories {
   mavenLocal()
   mavenCentral()
+}
+
+/**
+I have found that the JAVA_HOME environment variable that is set when your run this task ;
+    gradle cleanEclipse eclipse
+is the one that is included in the Eclipse BuildPath
+*/
+tasks.register<GradleBuild>("ecp") {
+    tasks = listOf("cleanEclipseClasspath", "eclipseClasspath")
 }
